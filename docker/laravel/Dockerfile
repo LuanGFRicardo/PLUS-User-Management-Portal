@@ -1,7 +1,6 @@
-# Imagem base com PHP 8.2 CLI
 FROM php:8.2-cli
 
-# Atualiza e instala dependências de sistema + ferramentas de compilação
+# Etapa 1 - Dependências
 RUN apt-get update && apt-get install -y \
     gnupg2 \
     unzip \
@@ -30,28 +29,24 @@ RUN apt-get update && apt-get install -y \
     g++ \
     make \
     autoconf \
-    unixodbc-dev
+    unixodbc-dev \
+    apt-utils \
+    libodbc1
 
-# Adiciona a chave GPG oficial da Microsoft
-RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc \
-    | gpg --dearmor > /usr/share/keyrings/microsoft-prod.gpg
+# Etapa 2 - Instalar drivers da Microsoft
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-prod.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/debian/12/prod bookworm main" > /etc/apt/sources.list.d/microsoft-prod.list
 
-# Adiciona o repositório da Microsoft para Debian 12 (Bookworm)
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/debian/12/prod bookworm main" \
-    > /etc/apt/sources.list.d/microsoft-prod.list
-
-# Instala o ODBC Driver e ferramentas SQL Server
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y \
     msodbcsql18 \
-    mssql-tools18 && \
-    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+    mssql-tools18
 
-# Instala extensões PHP (inclui sqlsrv via PECL)
-RUN pecl install pdo_sqlsrv sqlsrv \
-    && docker-php-ext-enable pdo_sqlsrv sqlsrv \
-    && docker-php-ext-install \
-    bcmath \
+ENV PATH="${PATH}:/opt/mssql-tools18/bin"
+
+# Etapa 3 - Instalar extensões PHP nativas primeiro
+RUN docker-php-ext-install \
     pdo \
+    bcmath \
     pcntl \
     intl \
     zip \
@@ -61,19 +56,20 @@ RUN pecl install pdo_sqlsrv sqlsrv \
     exif \
     opcache
 
-# Instala Composer (multi-stage)
+# Etapa 4 - Instalar sqlsrv + pdo_sqlsrv
+RUN pecl install pdo_sqlsrv sqlsrv && \
+    docker-php-ext-enable pdo_sqlsrv sqlsrv
+
+# Etapa 5 - Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Instala Node.js + npm
+# Etapa 6 - Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g npm
 
-# Define diretório de trabalho
 WORKDIR /var/www
 
-# Expõe as portas usadas pelo Laravel (serve) e Vite
 EXPOSE 8000 5173
 
-# Comando padrão
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
