@@ -10,7 +10,7 @@ class UserRegister extends Page
 
     protected static ?string $navigationLabel = 'Cadastro de Usuários';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-user-plus';
 
     protected static string $view = 'filament.pages.registro-usuarios.register-user';
 }

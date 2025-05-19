@@ -10,7 +10,7 @@ class UserManagement extends Page
 
     protected static ?string $navigationLabel = 'Aprovação de Usuários';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static string $view = 'filament.pages.controle-usuarios.control-user';
 }

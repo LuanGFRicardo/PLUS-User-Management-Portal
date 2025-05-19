@@ -10,7 +10,7 @@ class CompaniesManagement extends Page
 
     protected static ?string $navigationLabel = 'Gestão de Empresas';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
     protected static string $view = 'filament.pages.gestao-empresas.manage-companies';
 }

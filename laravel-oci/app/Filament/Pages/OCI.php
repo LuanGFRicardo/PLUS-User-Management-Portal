@@ -10,7 +10,7 @@ class OCI extends Page
 
     protected static ?string $navigationLabel = 'Requisições JSON para OCI';
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
 
     protected static string $view = 'filament.pages.oci.oci-json-generator';
 }
