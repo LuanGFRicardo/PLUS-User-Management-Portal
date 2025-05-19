@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_oci
+    environment:
+      SA_PASSWORD: 'Vf8mw436^'
+      ACCEPT_EULA: 'Y'
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - laravel-oci-network
+
+  app:
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    ports:
+      - "8000:8000"
+      - "5173:5173"
+    working_dir: /var/www
+    volumes:
+      - ../laravel-oci:/var/www
+      - ./docker/laravel/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - sqlserver
+    networks:
+      - laravel-oci-network
+    environment:
+      DB_CONNECTION: sqlsrv
+      DB_HOST: sqlserver
+      DB_PORT: 1433
+      DB_DATABASE: laravel-oci
+      DB_USERNAME: sa
+      DB_PASSWORD: Vf8mw436^
+    command: >
+      sh -c "
+        composer install &&
+        npm install &&
+        until nc -z sqlserver 1433;
+        do
+          echo 'Aguardando SQL Server subir...';
+          sleep 2;
+        done &&
+        php artisan migrate &&
+        php artisan serve --host=0.0.0.0 --port=8000
+      "
+
+volumes:
+  sqlserver_data:
+
+networks:
+  laravel-oci-network:
+    driver: bridge
