@@ -43,9 +43,10 @@ RUN apt-get update && ACCEPT_EULA=Y apt-get install -y \
 
 ENV PATH="${PATH}:/opt/mssql-tools18/bin"
 
-# Etapa 3 - Instalar extensões PHP nativas primeiro
+# Etapa 3 - Instalar extensões PHP nativas primeiro (incluindo pdo_mysql)
 RUN docker-php-ext-install \
     pdo \
+    pdo_mysql \
     bcmath \
     pcntl \
     intl \

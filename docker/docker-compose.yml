@@ -1,16 +1,19 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver_oci
+  mysql:
+    image: mysql:8.3
+    container_name: mysql_oci
+    restart: always
     environment:
-      SA_PASSWORD: 'Vf8mw436^'
-      ACCEPT_EULA: 'Y'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel_oci
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel123
     ports:
-      - "1433:1433"
+      - "3307:3306"
     volumes:
-      - sqlserver_data:/var/opt/mssql
+      - mysql_data:/var/lib/mysql
     networks:
       - laravel-oci-network
 
@@ -27,23 +30,23 @@ services:
       - ../laravel-oci:/var/www
       - ./docker/laravel/php.ini:/usr/local/etc/php/php.ini
     depends_on:
-      - sqlserver
+      - mysql
     networks:
       - laravel-oci-network
     environment:
-      DB_CONNECTION: sqlsrv
-      DB_HOST: sqlserver
-      DB_PORT: 1433
-      DB_DATABASE: laravel-oci
-      DB_USERNAME: sa
-      DB_PASSWORD: Vf8mw436^
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: laravel_oci
+      DB_USERNAME: laravel
+      DB_PASSWORD: laravel123
     command: >
       sh -c "
         composer install &&
         npm install &&
-        until nc -z sqlserver 1433;
+        until nc -z mysql 3306;
         do
-          echo 'Aguardando SQL Server subir...';
+          echo 'Aguardando MySQL subir...';
           sleep 2;
         done &&
         php artisan migrate &&
@@ -51,7 +54,7 @@ services:
       "
 
 volumes:
-  sqlserver_data:
+  mysql_data:
 
 networks:
   laravel-oci-network:
