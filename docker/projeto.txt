@@ -1,0 +1,116 @@
+A paleta de cores do portal deve seguir as seguintes definições:
+--primary-color: rgb(238, 238, 238);
+--secondary-color: #fcfcfc;
+--third-color: #e9e9e9;
+--bg-color: #fefefe;
+--bg-color-nav: #d2d3d5;
+--shadow-primary: rgba(0, 0, 0, 0.2);
+--shadow-secondary: #373a3d;
+--text-color: black;
+--text-color-nav: #49494B;
+--fixed-color: black;
+--cl-primary: #AEC455;
+--cl-secondary: #416d9c;
+--cl-secondary-dark: #345a82;
+--border-color: rgb(191, 191, 191);
+--border-secondary: rgba(255, 255, 255, 0.7);
+
+
+Em uma parceria entre o Sistema FIEP, KNAPP SUDAMERICA e MAIS INTELIGÊNCIA,
+surgiu a proposta de desenvolver uma demanda para o FIEP, cujo desafio está relacionado
+à criação de um portal chamado MAIS User Management Portal. Esse portal
+permitirá que os usuários se cadastrem e, após aprovação por um usuário gestor/admin,
+possam acessar as funcionalidades associadas ao perfil criado para eles
+
+Registro de usuários;
+● Criar um portal web para cadastro de usuários;
+● Implementar uma interface limpa e responsiva;
+● Utilizar um painel de controle (dashboard) para apresentar informações conforme
+a função do usuário;
+● Incluir indicadores de status para aprovações pendentes e execução de
+requisições
+
+
+● Gestão de empresas;
+
+
+● Geração de requisições JSON compatíveis com a OCI.
+Criar uma página onde os usuários possam gerar requisições JSON para criação de
+usuários na OCI;
+● Garantir que os formatos JSON sejam compatíveis com as especificações da API
+da OCI;
+● Criar um botão para enviar a requisição JSON para a OCI;
+Exemplos de Requisições JSON
+Exemplo 1: Criar Usuário
+Método: POST
+{
+"compartmentId": "ocid1.tenancy.oc1.maisinteligencia.infrastructure",
+"name": "newuser@dominio-user.com",
+"description": "Usuário para acesso à plataforma web"
+}
+Exemplo 2: Criar Grupo
+Método: POST
+{
+"compartmentId": "ocid1.tenancy.oc1.maisinteligencia.infrastructure",
+"name": "web-platform-admins",
+"description": "Grupo para administradores da plataforma web"
+}
+Exemplo 3: Criar Política de Permissão
+Método: POST
+{
+"compartmentId": "ocid1.tenancy.oc1.maisinteligencia.infrastructure",
+"name": "web-platform-policy",
+"description": "Política para conceder permissões à plataforma web",
+"statements": [
+"Allow group web-platform-admins to manage all-resources in tenancy"
+]
+}
+
+
+● Manter logs das requisições enviadas
+
+
+
+
+
+
+
+
+
+
+
+Criar tabelas necessárias para armazenar:
+○ Usuários;
+○ Permissões;
+○ Funções (roles);
+○ Empresas;
+○ Formatos JSON compatíveis com a OCI para interação com a infraestrutura.
+
+● Armazenar informações dos usuários, detalhes de login e funções de acesso;
+● Manter registros de ações dos usuários (logs);
+● Criar tabelas necessárias para servir como parâmetros de comunicação API com a
+OCI;
+● Armazenar detalhes da empresa, como nome e localização.
+
+● Controle de acesso baseado em funções (RBAC);
+
+Autenticação:
+○ Administrador: acesso total, incluindo gestão de usuários e empresas;
+○ Gerente: pode gerenciar usuários dentro da empresa designada;
+○ Operador: pode enviar requisições JSON, mas não possui privilégios
+administrativos.
+
+O Administrador pode criar e gerenciar empresas;
+● Cada usuário deve estar associado a uma única empresa (relação 1:1);
+● Cada empresa pode ter vários usuários (relação 1:n);
+● O Administrador pode associar usuários a uma empresa específica.
+
+● O login inicial para administrar o servidor será:
+○ Usuário: admin
+○ Senha: admin
+
+Para autenticação na API da OCI, serão necessários:
+● Tenancy OCID
+● User OCID (de um usuário administrador)
+● Fingerprint (da chave pública)
+● Chave privada (para assinar requisições API)

@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite --host 0.0.0.0",
+        "dev": "vite",
         "tailwind": "tailwindcss.exe -i ./resources/css/app.css -o ./public/vendor/tailwindcss/css/tailwind-build.css --watch"
     },
     "devDependencies": {

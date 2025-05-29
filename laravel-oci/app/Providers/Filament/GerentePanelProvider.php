@@ -17,6 +17,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class GerentePanelProvider extends PanelProvider
 {
@@ -52,5 +53,10 @@ class GerentePanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function canAccessPanel(?Authenticatable $user): bool
+    {
+        return $user?->hasRole('gerente');
     }
 }
