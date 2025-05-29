@@ -43,20 +43,6 @@
                     Empresas desativadas ou pendentes de regularização.
                 </p>
             </div>
-
-            <div class="rounded-xl border border-blue-400 bg-blue-50 dark:bg-blue-900/20 p-5 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-medium text-blue-700 dark:text-blue-300">
-                        Solicitações Pendentes
-                    </div>
-                    <div class="rounded-full bg-blue-500 text-white px-3 py-1 text-xs font-semibold">
-                        1
-                    </div>
-                </div>
-                <p class="mt-2 text-xs text-blue-600 dark:text-blue-200">
-                    Novas empresas aguardando ativação no sistema.
-                </p>
-            </div>
         </section>
 
         {{-- Lista de Empresas --}}
@@ -120,8 +106,8 @@
                             <td class="px-4 py-2 text-sm text-gray-800 dark:text-white">InovaTech Soluções ME</td>
                             <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300">11.111.222/0001-33</td>
                             <td class="px-4 py-2 text-sm">
-                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">
-                                    Pendente
+                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">
+                                    Ativa
                                 </span>
                             </td>
                             <td class="px-4 py-2 space-x-2">

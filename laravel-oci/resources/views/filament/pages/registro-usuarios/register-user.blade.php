@@ -23,26 +23,11 @@
                         Aguardando Aprovação
                     </div>
                     <div class="rounded-full bg-yellow-400 text-white px-3 py-1 text-xs font-semibold">
-                        4
+                        {{ $pendingUsersCount ?? 0 }}
                     </div>
                 </div>
                 <p class="mt-2 text-xs text-yellow-600 dark:text-yellow-200">
                     Usuários recém cadastrados aguardando aprovação do administrador.
-                </p>
-            </div>
-
-            {{-- Card: Requisições em Execução --}}
-            <div class="rounded-xl border border-blue-400 bg-blue-50 dark:bg-blue-900/20 p-5 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-medium text-blue-700 dark:text-blue-300">
-                        Requisições em Execução
-                    </div>
-                    <div class="rounded-full bg-blue-500 text-white px-3 py-1 text-xs font-semibold">
-                        2
-                    </div>
-                </div>
-                <p class="mt-2 text-xs text-blue-600 dark:text-blue-200">
-                    Processos em andamento no sistema, em tempo real.
                 </p>
             </div>
         </section>
@@ -55,60 +40,80 @@
                 </h2>
             </header>
             <div class="px-5 py-6">
-                <form id="userRegistrationForm" class="space-y-6" method="POST" action="#">
-                    @csrf {{-- exemplo estático --}}
-                    
-                    {{-- Campo: Nome Completo --}}
+                <form method="POST" action="{{ route('users.register') }}" class="space-y-5">
+                    @csrf
+
+                    {{-- Nome Completo --}}
                     <div>
                         <label for="fullName" class="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1">
                             Nome Completo
                         </label>
-                        <input 
-                            type="text" 
-                            id="fullName" 
-                            name="fullName" 
-                            class="filament-forms-input block w-full py-2 px-4 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:text-sm" 
-                            placeholder="Digite seu nome completo" 
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            class="filament-forms-input block w-full py-2 px-4 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:text-sm"
+                            placeholder="Digite seu nome completo"
+                            value="{{ old('fullName') }}"
                             required>
+                        @error('fullName') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                     </div>
 
-                    {{-- Campo: E-mail --}}
+                    {{-- E-mail --}}
                     <div>
                         <label for="email" class="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1">
                             E-mail
                         </label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            class="filament-forms-input block w-full py-2 px-4 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:text-sm" 
-                            placeholder="usuario@email.com" 
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="filament-forms-input block w-full py-2 px-4 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:text-sm"
+                            placeholder="usuario@email.com"
+                            value="{{ old('email') }}"
                             required>
+                        @error('email') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                     </div>
 
-                    {{-- Campo: Senha --}}
+                    {{-- Senha --}}
                     <div>
                         <label for="password" class="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1">
                             Senha
                         </label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            class="filament-forms-input block w-full py-2 px-4 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:text-sm" 
-                            placeholder="••••••••" 
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="filament-forms-input block w-full py-2 px-4 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:text-sm"
+                            placeholder="••••••••"
                             required>
+                        @error('password') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                    </div>
+
+                    {{-- Confirmação de Senha --}}
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1">
+                            Confirmar Senha
+                        </label>
+                        <input
+                            type="password"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            class="filament-forms-input block w-full py-2 px-4 border border-gray-300 rounded-lg dark:border-gray-600 dark:bg-gray-900 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:text-sm"
+                            placeholder="••••••••"
+                            required>
+                        @error('password_confirmation') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                     </div>
 
                     {{-- Botão Registrar --}}
                     <div>
-                        <button 
-                            type="submit" 
-                            class="inline-flex items-center justify-center rounded-md 
-                                   bg-primary-600 text-white 
-                                   px-6 py-2.5 text-sm font-semibold shadow-sm 
-                                   hover:bg-primary-700 
-                                   focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition">
+                        <button
+                            type="submit"
+                            class="inline-flex items-center justify-center rounded-md
+                            bg-primary-600 text-white
+                            px-6 py-2.5 text-sm font-semibold shadow-sm
+                            hover:bg-primary-700
+                            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition">
                             Registrar Usuário
                         </button>
                     </div>

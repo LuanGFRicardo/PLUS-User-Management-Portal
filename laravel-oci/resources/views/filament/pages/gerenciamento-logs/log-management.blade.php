@@ -32,8 +32,8 @@
                 <div class="rounded-lg bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white p-4 font-mono overflow-x-auto shadow-sm border border-gray-300 dark:border-gray-700">
 <pre>{
     "timestamp": "2025-05-19T10:34:22-03:00",
-    "user": "luan.ricardo",
-    "ip": "10.10.10.55",
+    "user": "13",
+    "name": "web-platform-admins",
     "action": "CREATE",
     "description": "Criação de grupo 'Admins OCI'",
     "status": "SUCCESS",
@@ -44,24 +44,22 @@
                 <div class="rounded-lg bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white p-4 font-mono overflow-x-auto shadow-sm border border-gray-300 dark:border-gray-700">
 <pre>{
     "timestamp": "2025-05-19T09:45:10-03:00",
-    "user": "maria.oliveira",
-    "ip": "10.10.10.33",
+    "user": "35",
+    "name": "web-platform-admins",
     "action": "UPDATE",
     "description": "Atualização da política 'Visualização Financeira'",
-    "status": "SUCCESS",
-    "system": "grapesjs-sqlserver-project"
+    "status": "SUCCESS"
 }</pre>
                 </div>
 
                 <div class="rounded-lg bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white p-4 font-mono overflow-x-auto shadow-sm border border-gray-300 dark:border-gray-700">
 <pre>{
     "timestamp": "2025-05-18T18:27:01-03:00",
-    "user": "admin",
-    "ip": "10.10.10.1",
+    "user": "13",
+    "name": "web-platform-admins",
     "action": "DELETE",
     "description": "Tentativa de exclusão do grupo 'Financeiro'",
-    "status": "FAILURE",
-    "system": "grapesjs-sqlserver-project"
+    "status": "FAILURE"
 }</pre>
                 </div>
 

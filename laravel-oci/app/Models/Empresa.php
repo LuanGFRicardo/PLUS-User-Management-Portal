@@ -3,32 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Empresa extends Model
 {
-    use HasFactory;
-
     protected $table = 'empresas';
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
-        'nome_fantasia',
         'razao_social',
         'cnpj',
-        'email',
         'telefone',
-        'endereco',
-        'cidade',
-        'estado',
-        'cep',
+        'ativo',
+        'data_cadastro',
+        'data_inativacao',
+        'endereco'
     ];
 
-    /**
-     * Uma empresa pode ter vários usuários.
-     */
-    public function usuarios(): HasMany
-    {
-        return $this->hasMany(User::class);
-    }
+    protected $casts = [
+        'ativo' => 'boolean',
+        'data_cadastro' => 'datetime',
+        'data_inativacao' => 'datetime',
+    ];
 }

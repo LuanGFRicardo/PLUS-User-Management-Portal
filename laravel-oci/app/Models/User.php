@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    public const APROVACAO_PENDENTE = null;
+    public const APROVACAO_REPROVADO = 0;
+    public const APROVACAO_APROVADO = 1;
 
-    use HasRoles;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +26,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'empresa_id',
+        'aprovacao',
+        'data_aprovacao',
+        'data_reprovacao'
     ];
 
     /**
@@ -46,13 +52,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'data_aprovacao' => 'datetime',
+            'data_reprovacao' => 'datetime',
+            'aprovacao' => 'boolean',
         ];
     }
 
+    /**
+     * Relacionamento com a empresa.
+     *
+     * @return BelongsTo
+     */
     public function empresa(): BelongsTo
     {
         return $this->belongsTo(Empresa::class);
     }
-
-
 }
