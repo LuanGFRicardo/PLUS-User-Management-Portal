@@ -69,6 +69,16 @@ class UserManagementResource extends Resource
                     ->relationship('empresa', 'razao_social')
                     ->searchable()
                     ->preload(),
+
+                Forms\Components\Select::make('role')
+                    ->label('Função')
+                    ->required()
+                    ->options([
+                        'gerente' => 'Gerente',
+                        'operador' => 'Operador',
+                    ])
+                    ->native(false)
+                    ->columnSpan('full'),
             ]);
     }
 

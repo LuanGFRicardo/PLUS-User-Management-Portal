@@ -23,6 +23,20 @@ class CreateUserManagement extends CreateRecord
         ];
     }
 
+    protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
+    {
+        $role = $data['role'];
+        unset($data['role']);
+
+        $data['aprovacao'] = \App\Models\User::APROVACAO_PENDENTE;
+
+        $record = $this->getModel()::create($data);
+
+        $record->assignRole($role);
+
+        return $record;
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['aprovacao'] = \App\Models\User::APROVACAO_PENDENTE;
