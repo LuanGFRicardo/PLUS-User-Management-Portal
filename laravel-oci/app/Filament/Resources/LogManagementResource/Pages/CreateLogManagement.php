@@ -9,4 +9,17 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLogManagement extends CreateRecord
 {
     protected static string $resource = LogManagementResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl();
+    }
+
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getCreateFormAction(),
+            $this->getCancelFormAction(),
+        ];
+    }
 }

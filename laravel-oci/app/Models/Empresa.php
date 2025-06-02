@@ -25,4 +25,11 @@ class Empresa extends Model
         'data_cadastro' => 'datetime',
         'data_inativacao' => 'datetime',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($empresa) {
+            $empresa->data_cadastro = now();
+        });
+    }
 }

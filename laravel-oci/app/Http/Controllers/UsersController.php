@@ -36,25 +36,4 @@ class UsersController extends Controller
 
         return $this->redirect(static::getUrl());
     }
-
-    public function approve(User $user)
-    {
-        $user->update([
-            'aprovacao' => 1,
-            'data_aprovacao' => now(),
-            'data_reprovacao' => null,
-        ]);
-
-        return redirect()->back()->with('success', 'Usuário aprovado com sucesso.');
-    }
-
-    public function reject(User $user)
-    {
-        $user->update([
-            'aprovacao' => 0,
-            'data_reprovacao' => now(),
-        ]);
-
-        return redirect()->back()->with('success', 'Usuário reprovado com sucesso.');
-    }
 }

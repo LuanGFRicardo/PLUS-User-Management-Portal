@@ -1,6 +1,7 @@
 <?php
 use Livewire\Livewire;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -12,6 +13,6 @@ Livewire::setUpdateRoute(function ($handle) {
 
 Route::middleware(['auth'])->group(function () {
     require __DIR__.'/web/users.php';
-    require __DIR__.'/web/oci.php';
+    require __DIR__.'/web/logs.php';
     require __DIR__.'/web/companies.php';
 });

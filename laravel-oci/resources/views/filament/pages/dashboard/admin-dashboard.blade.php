@@ -23,11 +23,26 @@
                         Usuários Ativos
                     </div>
                     <div class="rounded-full bg-green-500 text-white px-3 py-1 text-xs font-semibold">
-                        128
+                        {{ $this->usuariosAtivos }}
                     </div>
                 </div>
                 <p class="mt-2 text-xs text-green-600 dark:text-green-200">
                     Total de usuários com acesso ao sistema.
+                </p>
+            </div>
+
+            {{-- Card: Total de Empresas --}}
+            <div class="rounded-xl border border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm font-medium text-yellow-700 dark:text-yellow-300">
+                        Empresas Ativas
+                    </div>
+                    <div class="rounded-full bg-yellow-500 text-white px-3 py-1 text-xs font-semibold">
+                        {{ $this->empresasAtivas }}
+                    </div>
+                </div>
+                <p class="mt-2 text-xs text-yellow-600 dark:text-yellow-200">
+                    Empresas ativas no sistema.
                 </p>
             </div>
 
@@ -38,26 +53,11 @@
                         Logs de Requisições
                     </div>
                     <div class="rounded-full bg-gray-500 text-white px-3 py-1 text-xs font-semibold">
-                        542
+                        {{ $this->logsRegistrados }}
                     </div>
                 </div>
                 <p class="mt-2 text-xs text-gray-600 dark:text-gray-200">
                     Ações monitoradas registradas no sistema.
-                </p>
-            </div>
-
-            {{-- Card: Erros no Sistema --}}
-            <div class="rounded-xl border border-red-400 bg-red-50 dark:bg-red-900/20 p-5 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-medium text-red-700 dark:text-red-300">
-                        Erros Recentes
-                    </div>
-                    <div class="rounded-full bg-red-500 text-white px-3 py-1 text-xs font-semibold">
-                        3
-                    </div>
-                </div>
-                <p class="mt-2 text-xs text-red-600 dark:text-red-200">
-                    Falhas detectadas nas últimas 24 horas.
                 </p>
             </div>
         </section>

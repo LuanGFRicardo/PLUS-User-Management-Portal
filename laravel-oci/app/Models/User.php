@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    public const APROVACAO_PENDENTE = null;
+    public const APROVACAO_PENDENTE = 2;
     public const APROVACAO_REPROVADO = 0;
     public const APROVACAO_APROVADO = 1;
 
@@ -54,7 +54,6 @@ class User extends Authenticatable
             'password' => 'hashed',
             'data_aprovacao' => 'datetime',
             'data_reprovacao' => 'datetime',
-            'aprovacao' => 'boolean',
         ];
     }
 
@@ -67,4 +66,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Empresa::class);
     }
+
+    protected $attributes = [
+        'aprovacao' => self::APROVACAO_PENDENTE,
+    ];
 }
