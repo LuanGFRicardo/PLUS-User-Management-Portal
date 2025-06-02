@@ -14,24 +14,6 @@
             Painel de Cadastro de Usuários
         </h2>
 
-        {{-- Painel de Indicadores (Dashboard) --}}
-        <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {{-- Card: Usuários Pendentes de Aprovação --}}
-            <div class="rounded-xl border border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 p-5 shadow-sm">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-medium text-yellow-700 dark:text-yellow-300">
-                        Aguardando Aprovação
-                    </div>
-                    <div class="rounded-full bg-yellow-400 text-white px-3 py-1 text-xs font-semibold">
-                        {{ $pendingUsersCount ?? 0 }}
-                    </div>
-                </div>
-                <p class="mt-2 text-xs text-yellow-600 dark:text-yellow-200">
-                    Usuários recém cadastrados aguardando aprovação do administrador.
-                </p>
-            </div>
-        </section>
-
         {{-- Formulário de Cadastro --}}
         <section class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
             <header class="rounded-t-xl border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-5 py-3">
@@ -110,14 +92,19 @@
                         <button
                             type="submit"
                             class="inline-flex items-center justify-center rounded-md
-                            bg-primary-600 text-white
+                            bg-blue-600 text-white
                             px-6 py-2.5 text-sm font-semibold shadow-sm
-                            hover:bg-primary-700
-                            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition">
+                            hover:bg-blue-700
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">
                             Registrar Usuário
                         </button>
                     </div>
                 </form>
+                @if (session('success'))
+                    <div class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
             </div>
         </section>
     </div>

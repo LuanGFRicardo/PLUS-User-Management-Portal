@@ -22,18 +22,16 @@ class UsersController extends Controller
         $validated = $request->validate([
             'fullName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string'],
+            'password' => ['required', 'string', 'confirmed'],
         ]);
 
         User::create([
             'name' => $validated['fullName'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'aprovacao' => null,
+            'aprovacao' => User::APROVACAO_PENDENTE,
         ]);
 
-        session()->flash('success', 'Usuário cadastrado com sucesso. Aguarde aprovação.');
-
-        return $this->redirect(static::getUrl());
+        return redirect()->route('users.register.form')->with('success', 'Usuário cadastrado com sucesso. Aguarde aprovação.');
     }
 }

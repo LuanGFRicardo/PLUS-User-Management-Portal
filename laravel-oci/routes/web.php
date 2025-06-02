@@ -12,5 +12,7 @@ Livewire::setUpdateRoute(function ($handle) {
 });
 
 Route::middleware(['auth', 'role:admin|operador'])->group(function () {
-    require __DIR__.'/web/users.php';
+    
 });
+
+require __DIR__.'/web/users.php';

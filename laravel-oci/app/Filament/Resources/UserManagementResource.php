@@ -64,6 +64,7 @@ class UserManagementResource extends Resource
                     ->required(fn($record) => $record === null) // Só obrigatório na criação
                     ->dehydrateStateUsing(fn($state) => bcrypt($state)),
 
+                // TODO filtrar por apenas empresas ativas
                 Forms\Components\Select::make('empresa_id')
                     ->label('Empresa')
                     ->relationship('empresa', 'razao_social')
