@@ -116,7 +116,8 @@ class CompaniesManagementResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                 ]),
-            ]);
+            ])
+            ->paginationPageOptions([10, 25, 50, 100, 250]);
     }
 
     public static function getRelations(): array

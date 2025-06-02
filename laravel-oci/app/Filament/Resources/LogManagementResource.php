@@ -5,16 +5,18 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LogManagementResource\Pages;
 use App\Models\Log;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Tables\Columns;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\Action;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class LogManagementResource extends Resource
 {
     protected static ?string $model = Log::class;
 
+    protected static ?string $title = 'Gestão de Logs';
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationGroup = 'Administração';
     protected static ?int $navigationSort = 99;
@@ -39,34 +41,60 @@ class LogManagementResource extends Resource
         return $user?->hasRole('admin', 'gerente');
     }
 
-    // Nenhum form: logs não devem ser editados diretamente
-    public static function form(Forms\Form $form): Forms\Form
+    public static function form(Form $form): Form
     {
-        return $form->schema([]);
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('action')
+                    ->label('Ação')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\TextInput::make('name')
+                    ->label('Nome')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\Textarea::make('description')
+                    ->label('Descrição')
+                    ->maxLength(1000),
+
+                Forms\Components\Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'success' => 'Sucesso',
+                        'error' => 'Erro',
+                        'warning' => 'Aviso',
+                        'other' => 'Outro',
+                    ])
+                    ->required(),
+
+                Forms\Components\Textarea::make('json')
+                    ->label('JSON')
+                    ->rows(5)
+                    ->maxLength(5000)
+                    ->json(),
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
-
-                Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->label('Usuário')
                     ->searchable(),
 
-                Columns\TextColumn::make('action')
+                Tables\Columns\TextColumn::make('action')
                     ->label('Ação')
                     ->searchable(),
 
-                Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
                     ->limit(30)
                     ->searchable(),
 
-                Columns\BadgeColumn::make('status')
+                Tables\Columns\BadgeColumn::make('status')
                     ->label('Status')
                     ->colors([
                         'success' => fn($state) => $state === 'success',
@@ -75,28 +103,42 @@ class LogManagementResource extends Resource
                         'gray' => fn($state) => !in_array($state, ['success', 'error', 'warning']),
                     ]),
 
-                Columns\TextColumn::make('data_cadastro')
+                Tables\Columns\TextColumn::make('data_cadastro')
                     ->label('Data de Cadastro')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('json')
+                    ->label('JSON')
+                    ->limit(50),
             ])
             ->filters([
-                SelectFilter::make('status')
+                Tables\Filters\SelectFilter::make('status')
                     ->label('Status')
                     ->options([
                         'success' => 'Sucesso',
                         'error' => 'Erro',
                         'warning' => 'Aviso',
+                        'other' => 'Outro',
                     ]),
-                SelectFilter::make('action')
+
+                Tables\Filters\SelectFilter::make('action')
                     ->label('Ação')
                     ->searchable()
                     ->options(
-                        Log::query()->distinct()->pluck('action', 'action')->toArray()
+                        Log::query()
+                            ->distinct()
+                            ->pluck('action', 'action')
+                            ->sortKeys()
+                            ->toArray()
                     ),
             ])
-            ->actions([])  // Sem ações diretas
-            ->bulkActions([])  // Sem ações em lote
+            ->actions([
+                // Logs não devem ser editados ou excluídos diretamente - removido EditAction/DeleteAction
+            ])
+            ->bulkActions([
+                // Nenhuma ação em lote, pois logs são imutáveis no contexto
+            ])
             ->defaultSort('data_cadastro', 'desc')
             ->paginationPageOptions([10, 25, 50, 100, 250]);
     }
@@ -110,7 +152,8 @@ class LogManagementResource extends Resource
     {
         return [
             'index' => Pages\ListLogManagement::route('/'),
-            // Sem rotas para create ou edit
+            'create' => Pages\CreateLogManagement::route('/create'),
+            // não adicionamos edit para garantir integridade dos logs
         ];
     }
 }

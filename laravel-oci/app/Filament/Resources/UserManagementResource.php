@@ -141,7 +141,8 @@ class UserManagementResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginationPageOptions([10, 25, 50, 100, 250]);
     }
 
     public static function getRelations(): array
