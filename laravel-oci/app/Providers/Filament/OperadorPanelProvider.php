@@ -53,4 +53,11 @@ class OperadorPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+
+    public function canAccessPanel(?Authenticatable $user): bool
+    {
+        return $user
+            && $user->hasRole('operador')
+            && $user->aprovacao === \App\Models\User::APROVACAO_APROVADO;
+    }
 }

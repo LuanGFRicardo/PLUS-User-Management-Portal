@@ -8,14 +8,20 @@
 @endpush
 
 @section('content')
-    <div class="mx-auto w-full max-w-5xl space-y-8 px-4 py-10">
+    <div class="flex flex-col items-center justify-center mx-auto w-full max-w-5xl space-y-8 px-4 py-10">
+        
+        {{-- Logo centralizada --}}
+        <div class="w-full flex justify-center">
+            <img src="{{ asset('images/knapp_logo.svg') }}" alt="Logo da empresa" class="h-16 mb-6">
+        </div>
+
         {{-- Título da Página --}}
-        <h2 class="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white">
+        <h2 class="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white text-center">
             Painel de Cadastro de Usuários
         </h2>
 
         {{-- Formulário de Cadastro --}}
-        <section class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
+        <section class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm w-full">
             <header class="rounded-t-xl border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-5 py-3">
                 <h2 class="text-base font-semibold text-gray-800 dark:text-white">
                     Cadastro de Usuário
@@ -100,8 +106,10 @@
                         </button>
                     </div>
                 </form>
+
+                {{-- Mensagem de Sucesso --}}
                 @if (session('success'))
-                    <div class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
+                    <div class="bg-green-100 text-green-800 px-4 py-3 rounded mt-5">
                         {{ session('success') }}
                     </div>
                 @endif

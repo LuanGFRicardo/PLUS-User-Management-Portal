@@ -26,6 +26,11 @@ return new class extends Migration
                 ->nullable()
                 ->after('data_aprovacao')
                 ->comment('Data e hora da reprovação do usuário');
+
+            $table->string('role')
+                ->default('operador')
+                ->after('data_reprovacao')
+                ->comment('Função atribuída ao usuário: admin, gerente, operador, etc.');
         });
     }
 
@@ -35,7 +40,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['aprovacao', 'data_aprovacao', 'data_reprovacao']);
+            $table->dropColumn([
+                'aprovacao',
+                'data_aprovacao',
+                'data_reprovacao',
+                'role',
+            ]);
         });
     }
 };

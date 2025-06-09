@@ -29,7 +29,8 @@ class User extends Authenticatable
         'empresa_id',
         'aprovacao',
         'data_aprovacao',
-        'data_reprovacao'
+        'data_reprovacao',
+        'role'
     ];
 
     /**
@@ -70,4 +71,9 @@ class User extends Authenticatable
     protected $attributes = [
         'aprovacao' => self::APROVACAO_PENDENTE,
     ];
+
+    public function isApproved(): bool
+    {
+        return $this->aprovacao === self::APROVACAO_APROVADO;
+    }
 }

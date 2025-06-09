@@ -11,16 +11,22 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('empresas', function (Blueprint $table) {
-            // Remover colunas indesejadas
-            $table->dropColumn([
-                'nome_fantasia',
-                'email',
-                'cidade',
-                'estado',
-                'cep'
-            ]);
+            if (Schema::hasColumn('empresas', 'nome_fantasia')) {
+                $table->dropColumn('nome_fantasia');
+            }
+            if (Schema::hasColumn('empresas', 'email')) {
+                $table->dropColumn('email');
+            }
+            if (Schema::hasColumn('empresas', 'cidade')) {
+                $table->dropColumn('cidade');
+            }
+            if (Schema::hasColumn('empresas', 'estado')) {
+                $table->dropColumn('estado');
+            }
+            if (Schema::hasColumn('empresas', 'cep')) {
+                $table->dropColumn('cep');
+            }
 
-            // Adicionar novas colunas
             $table->tinyInteger('ativo')
                 ->default(1)
                 ->after('telefone')
@@ -38,23 +44,29 @@ return new class extends Migration {
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('empresas', function (Blueprint $table) {
-            // Recriar colunas removidas
-            $table->string('nome_fantasia')->after('id');
-            $table->string('email')->nullable()->after('cnpj');
-            $table->string('cidade')->nullable()->after('endereco');
-            $table->string('estado')->nullable()->after('cidade');
-            $table->string('cep')->nullable()->after('estado');
+            if (!Schema::hasColumn('empresas', 'nome_fantasia')) {
+                $table->string('nome_fantasia')->after('id');
+            }
+            if (!Schema::hasColumn('empresas', 'email')) {
+                $table->string('email')->nullable()->after('cnpj');
+            }
+            if (!Schema::hasColumn('empresas', 'cidade')) {
+                $table->string('cidade')->nullable()->after('endereco');
+            }
+            if (!Schema::hasColumn('empresas', 'estado')) {
+                $table->string('estado')->nullable()->after('cidade');
+            }
+            if (!Schema::hasColumn('empresas', 'cep')) {
+                $table->string('cep')->nullable()->after('estado');
+            }
 
-            // Laravel automaticamente cria 'created_at' e 'updated_at' com timestamps()
-            $table->timestamps();
+            if (!Schema::hasColumn('empresas', 'created_at') && !Schema::hasColumn('empresas', 'updated_at')) {
+                $table->timestamps();
+            }
 
-            // Remover as colunas adicionadas
             $table->dropColumn(['ativo', 'data_cadastro', 'data_inativacao']);
         });
     }

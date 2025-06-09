@@ -1,6 +1,6 @@
 @extends('filament.pages.menu.layouts.app')
 
-@section('title', 'MAIS User Management Portal')
+@section('title', 'PLUS User Management Portal')
 
 @push('styles')
     <link href="{{ asset('vendor/tailwindcss/css/tailwind-build.css') }}" rel="stylesheet"/>
@@ -11,7 +11,7 @@
     <div class="mx-auto w-full max-w-5xl space-y-8 px-4 py-10">
         {{-- Título da Página --}}
         <h2 class="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white">
-            MAIS User Management Portal
+            PLUS User Management Portal
         </h2>
 
         {{-- Painel de Indicadores --}}

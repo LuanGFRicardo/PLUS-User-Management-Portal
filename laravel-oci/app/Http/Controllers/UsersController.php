@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -25,13 +26,17 @@ class UsersController extends Controller
             'password' => ['required', 'string', 'confirmed'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validated['fullName'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'aprovacao' => User::APROVACAO_PENDENTE,
+            'role' => 'operador',
         ]);
 
-        return redirect()->route('users.register.form')->with('success', 'Usuário cadastrado com sucesso. Aguarde aprovação.');
+        $user->syncRoles([$user->role]);
+
+        return redirect()->route('registration.confirmed')
+            ->with('success', 'Usuário cadastrado com sucesso. Aguarde aprovação.');
     }
 }

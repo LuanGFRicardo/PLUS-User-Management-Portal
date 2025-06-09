@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class AdminDashboard extends Page
 {
-    protected static ?string $title = 'MAIS User Management Portal';
+    protected static ?string $title = 'PLUS User Management Portal';
 
     protected static ?string $navigationLabel = 'Dashboard';
 

@@ -21,6 +21,7 @@ return new class extends Migration
                 'name' => 'Admin',
                 'password' => bcrypt('admin'),
                 'aprovacao' => User::APROVACAO_APROVADO,
+                'data_aprovacao' => now(),
                 'email_verified_at' => now(),
             ]
         );

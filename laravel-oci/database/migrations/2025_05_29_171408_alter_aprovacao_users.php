@@ -28,7 +28,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('aprovacao')
                 ->default(0)
-                ->nullable(false)
+                ->nullable()
                 ->comment('0 = Não Aprovado, 1 = Aprovado')
                 ->change();
         });

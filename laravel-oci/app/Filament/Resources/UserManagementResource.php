@@ -35,9 +35,11 @@ class UserManagementResource extends Resource
         return 'Gestão de Usuários';
     }
 
-    public function canAccessPanel(?Authenticatable $user): bool
+    public static function canAccess(): bool
     {
-        return $user?->hasRole('admin', 'gerente');
+        $user = auth()->user();
+
+        return $user && $user->hasRole(['admin', 'gerente']);
     }
 
     protected static ?string $title = 'Gestão de Usuários';
@@ -64,7 +66,6 @@ class UserManagementResource extends Resource
                     ->required(fn($record) => $record === null) // Só obrigatório na criação
                     ->dehydrateStateUsing(fn($state) => bcrypt($state)),
 
-                // TODO filtrar por apenas empresas ativas
                 Forms\Components\Select::make('empresa_id')
                     ->label('Empresa')
                     ->relationship('empresa', 'razao_social')

@@ -1,13 +1,13 @@
 version: "3.8"
 
 services:
-  mysql:
+  sqlserver:
     image: mysql:8.3
-    container_name: mysql_oci
+    container_name: sqlserver
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel_oci
+      MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
       MYSQL_PASSWORD: laravel123
     ports:
@@ -15,47 +15,18 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - laravel-oci-network
+      - mais-portal-network
 
-  # app:
-  #   build:
-  #     context: ./laravel
-  #     dockerfile: Dockerfile
-  #   container_name: laravel_app
-  #   ports:
-  #     - "8000:8000"
-  #     - "5173:5173"
-  #   working_dir: /var/www
-  #   volumes:
-  #     - ../laravel-oci:/var/www
-  #     - ./docker/laravel/php.ini:/usr/local/etc/php/php.ini
-  #   depends_on:
-  #     - mysql
-  #   networks:
-  #     - laravel-oci-network
-  #   environment:
-  #     DB_CONNECTION: mysql
-  #     DB_HOST: mysql
-  #     DB_PORT: 3306
-  #     DB_DATABASE: laravel_oci
-  #     DB_USERNAME: laravel
-  #     DB_PASSWORD: laravel123
-  #   command: >
-  #     sh -c "
-  #       composer install &&
-  #       npm install &&
-  #       until nc -z mysql 3306;
-  #       do
-  #         echo 'Aguardando MySQL subir...';
-  #         sleep 2;
-  #       done &&
-  #       php artisan migrate &&
-  #       php artisan serve --host=0.0.0.0 --port=8000
-  #     "
+  user_management_portal:
+    image: alpine
+    container_name: user_management_portal
+    command: ["sleep", "infinity"]
+    networks:
+      - mais-portal-network
 
 volumes:
   mysql_data:
 
 networks:
-  laravel-oci-network:
+  mais-portal-network:
     driver: bridge

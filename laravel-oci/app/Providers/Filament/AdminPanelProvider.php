@@ -61,6 +61,8 @@ class AdminPanelProvider extends PanelProvider
 
     public function canAccessPanel(?Authenticatable $user): bool
     {
-        return $user?->hasRole('admin');
+        return $user
+            && $user->hasRole('admin')
+            && $user->aprovacao === \App\Models\User::APROVACAO_APROVADO;
     }
 }

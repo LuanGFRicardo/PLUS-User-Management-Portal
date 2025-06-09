@@ -36,9 +36,11 @@ class LogManagementResource extends Resource
         return 'Gestão de Logs';
     }
 
-    public function canAccessPanel(?Authenticatable $user): bool
+    public static function canAccess(): bool
     {
-        return $user?->hasRole('admin', 'gerente');
+        $user = auth()->user();
+
+        return $user && $user->hasRole(['admin', 'gerente', 'operador']);
     }
 
     public static function form(Form $form): Form

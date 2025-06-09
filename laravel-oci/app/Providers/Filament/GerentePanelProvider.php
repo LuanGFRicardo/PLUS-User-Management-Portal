@@ -57,6 +57,8 @@ class GerentePanelProvider extends PanelProvider
 
     public function canAccessPanel(?Authenticatable $user): bool
     {
-        return $user?->hasRole('gerente');
+        return $user
+            && $user->hasRole('gerente')
+            && $user->aprovacao === \App\Models\User::APROVACAO_APROVADO;
     }
 }

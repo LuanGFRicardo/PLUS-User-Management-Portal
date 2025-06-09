@@ -35,9 +35,11 @@ class CompaniesManagementResource extends Resource
         return 'Gestão de Empresas';
     }
 
-    public function canAccessPanel(?Authenticatable $user): bool
+    public static function canAccess(): bool
     {
-        return $user?->hasRole('admin');
+        $user = auth()->user();
+
+        return $user && $user->hasRole(['admin']);
     }
 
     public static function form(Form $form): Form
