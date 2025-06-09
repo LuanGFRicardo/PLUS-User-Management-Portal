@@ -47,35 +47,35 @@ class LogManagementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('action')
+                Forms\Components\Select::make('action')
                     ->label('Ação')
-                    ->required()
-                    ->maxLength(255),
+                    ->options([
+                        'create_user' => 'Criar Usuário',
+                        'create_group' => 'Criar Grupo',
+                        'create_policy' => 'Criar Política de Permissão',
+                    ])
+                    ->reactive()
+                    ->required(),
 
                 Forms\Components\TextInput::make('name')
                     ->label('Nome')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->visible(fn (Forms\Get $get) => in_array($get('action'), ['create_user', 'create_group', 'create_policy'])),
 
                 Forms\Components\Textarea::make('description')
                     ->label('Descrição')
-                    ->maxLength(1000),
-
-                Forms\Components\Select::make('status')
-                    ->label('Status')
-                    ->options([
-                        'success' => 'Sucesso',
-                        'error' => 'Erro',
-                        'warning' => 'Aviso',
-                        'other' => 'Outro',
-                    ])
-                    ->required(),
+                    ->maxLength(1000)
+                    ->visible(fn (Forms\Get $get) => in_array($get('action'), ['create_user', 'create_group', 'create_policy'])),
 
                 Forms\Components\Textarea::make('json')
                     ->label('JSON')
                     ->rows(5)
                     ->maxLength(5000)
-                    ->json(),
+                    ->json()
+                    ->disabled()
+                    ->visible(false)
+                    ->dehydrated(false),
             ]);
     }
 
@@ -101,8 +101,8 @@ class LogManagementResource extends Resource
                     ->colors([
                         'success' => fn($state) => $state === 'success',
                         'danger' => fn($state) => $state === 'error',
-                        'warning' => fn($state) => $state === 'warning',
-                        'gray' => fn($state) => !in_array($state, ['success', 'error', 'warning']),
+                        'warning' => fn($state) => $state === 'pending',
+                        'gray' => fn($state) => !in_array($state, ['success', 'error', 'pending']),
                     ]),
 
                 Tables\Columns\TextColumn::make('data_cadastro')
@@ -120,7 +120,7 @@ class LogManagementResource extends Resource
                     ->options([
                         'success' => 'Sucesso',
                         'error' => 'Erro',
-                        'warning' => 'Aviso',
+                        'pending' => 'Pendente',
                         'other' => 'Outro',
                     ]),
 

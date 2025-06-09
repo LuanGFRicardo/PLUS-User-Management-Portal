@@ -2,31 +2,33 @@ version: "3.8"
 
 services:
   sqlserver:
-    image: mysql:8.3
+    image: mcr.microsoft.com/mssql/server:2022-lts
     container_name: sqlserver
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel123
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      MSSQL_PID: "Express"
     ports:
-      - "3307:3306"
+      - "1433:1433"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - sqlserver_data:/var/opt/mssql
     networks:
-      - mais-portal-network
+      - plus-portal-network
 
-  user_management_portal:
-    image: alpine
-    container_name: user_management_portal
-    command: ["sleep", "infinity"]
+  php:
+    image: php:8.2-cli
+    container_name: php
+    volumes:
+      - ../laravel:/var/www/html
+    working_dir: /var/www/html
     networks:
-      - mais-portal-network
+      - plus-portal-network
+    command: ["sleep", "infinity"]
 
 volumes:
-  mysql_data:
+  sqlserver_data:
 
 networks:
-  mais-portal-network:
+  plus-portal-network:
     driver: bridge

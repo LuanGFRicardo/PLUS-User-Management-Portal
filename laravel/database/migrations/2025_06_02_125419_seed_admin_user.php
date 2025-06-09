@@ -22,6 +22,7 @@ return new class extends Migration
                 'password' => bcrypt('admin'),
                 'aprovacao' => User::APROVACAO_APROVADO,
                 'data_aprovacao' => now(),
+                'role' => 'admin',
                 'email_verified_at' => now(),
             ]
         );

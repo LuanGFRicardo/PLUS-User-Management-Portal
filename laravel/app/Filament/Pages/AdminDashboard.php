@@ -20,9 +20,11 @@ class AdminDashboard extends Page
 
     protected static string $view = 'filament.pages.dashboard.admin-dashboard';
 
-    public function canAccessPanel(?Authenticatable $user): bool
+    public static function canAccess(): bool
     {
-        return $user?->hasRole('admin');
+        $user = auth()->user();
+
+        return $user && $user->hasRole(['admin', 'gerente', 'operador']);
     }
 
     // Métodos para obter os dados dinâmicos

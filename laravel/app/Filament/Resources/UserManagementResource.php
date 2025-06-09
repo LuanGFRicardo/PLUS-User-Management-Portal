@@ -119,7 +119,8 @@ class UserManagementResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn($record) => $record->id !== 1),
 
                 Action::make('aprovar')
                     ->label('Aprovar')
@@ -154,7 +155,8 @@ class UserManagementResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->paginationPageOptions([10, 25, 50, 100, 250]);
+            ->paginationPageOptions([10, 25, 50, 100, 250])
+            ->recordUrl(fn ($record) => $record->id !== 1 ? static::getUrl('edit', ['record' => $record]) : null);
     }
 
     public static function getRelations(): array
