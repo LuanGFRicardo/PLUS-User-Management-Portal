@@ -25,7 +25,6 @@ class AppServiceProvider extends ServiceProvider
 
             // Bloqueia e desloga se usuário não tiver role ou não tiver sido aprovado
             if (
-                $user->roles->isEmpty() ||
                 is_null($user->data_aprovacao)
             ) {
                 Auth::logout();
